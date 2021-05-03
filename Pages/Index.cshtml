@@ -1,0 +1,44 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Current Inventory: $@Model.CurrentTotal</h1>
+    @if(Model.Inventory.Any())
+    { 
+    @foreach (var billCount in Model.Inventory)
+    {
+        <div class="h2">@billCount</div>
+    }
+    }
+    else
+    {
+        <div class="h2">Empty!</div>
+    }
+    <br />
+    <br />
+    <div class="flex-column d-flex justify-content-center">
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="bg-danger text-dark">@Model.ErrorMessage</div>
+        }
+        else if (!string.IsNullOrWhiteSpace(Model.SuccessMessage))
+        {
+            <div class="bg-success text-dark text-center">
+                <div>@Model.SuccessMessage</div>
+                @foreach (var transactionDetail in Model.TransactionDetails)
+                {
+                    <div>@transactionDetail</div>
+                }
+            </div>
+        }
+    </div>
+    <br />
+    <br />
+    <form method="post">
+        <label asp-for="WithdrawAmount">Withdraw amount</label><br/>
+        <input type="number" asp-for="WithdrawAmount" step="1" />
+    </form>
+</div>
